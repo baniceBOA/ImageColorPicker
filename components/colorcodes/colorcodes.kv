@@ -1,0 +1,35 @@
+<ColorCodes>:
+    size_hint:(None, None)
+    height:110
+    width:360
+    MDFloatLayout:
+        pos_hint:{'left':1, 'bottom':1}
+        size_hint:(None, None)
+        height:dp(50)
+        width:dp(280)
+        canvas:
+            Color:
+                rgb:rgba(230, 230, 230, 0)
+            RoundedRectangle:
+                size:self.size
+                pos:self.x+10, self.y+10
+                radius:[5]
+    MDLabel:
+        pos_hint:{'left':1, 'center_y':1}
+        text:root.declaration_lbl
+        bold:True
+        font_size:dp(25)
+        size_hint_y:None
+        height:dp(14) 
+    MDLabel:
+        padding:[dp(18), 0, 0, 0]
+        pos_hint:{'left':1, 'center_y':0.3}
+        text:str(root.color_label)
+    MDIconButton:
+        pos_hint:{'center_x':0.75, 'center_y':0.3}
+        icon:'content-copy'
+        on_release:root.copy()
+    ColorCard:
+        pos_hint:{'right':1, 'center_y':0.35}
+        color:root.color
+    
