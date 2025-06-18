@@ -1,0 +1,1 @@
+from .colorselectionbehaviour import ImageColorSelection
