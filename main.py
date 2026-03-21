@@ -11,9 +11,9 @@ class MainApp(MDApp):
 
     def build(self):
         if platform == 'android':
-            return ComputerImageColorPicker()
-        else:
             return MobileImageColorPicker()
+        else:
+            return ComputerImageColorPicker()
     def on_start(self):
         #self.root.main_colors = self.get_main_colors(self.root.source)
         pass 
