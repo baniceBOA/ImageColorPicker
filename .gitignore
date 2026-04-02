@@ -3,6 +3,7 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-
+notes_converted.pdf
+txtopdf.py
 # cache files 
 *.pyc
