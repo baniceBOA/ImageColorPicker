@@ -9,7 +9,7 @@ import colorsys
 
 
 class ImageColorSelection(EventDispatcher):
-    source = StringProperty('C:\\Users\\HP\\Pictures\\_yibs_ke-20220923-0001.webp')
+    source = StringProperty('')
     rgb = ColorProperty()
     rgb_color = ColorProperty([0, 1, 1, 1])
     rgb_color_label = StringProperty()
