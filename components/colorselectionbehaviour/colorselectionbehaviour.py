@@ -1,5 +1,7 @@
 from kivy.properties import StringProperty, ColorProperty, ListProperty
 from kivy.utils import get_hex_from_color, get_color_from_hex
+from kivymd.toast import toast
+from kivy.utils import platform
 from kivy.event import EventDispatcher
 from kivy.uix.image import Image
 from plyer import filechooser
@@ -7,6 +9,8 @@ from PIL import Image as PILImage
 from kivy.clock import Clock
 import colorsys
 
+if platform == 'android':
+    from android.permissions import request_permissions, Permission, check_permission
 
 class ImageColorSelection(EventDispatcher):
     source = StringProperty('')
@@ -64,6 +68,33 @@ class ImageColorSelection(EventDispatcher):
         return five_colors
     
     def select_image(self):
+        if platform == 'android':
+            # Request specific Media permission for API 33+
+            perm = Permission.READ_MEDIA_IMAGES
+            if not check_permission(perm):
+                request_permissions([perm], self.on_permission_result)
+                return # Stop and wait for user choice
+        
+        # If already granted or on Desktop, open picker
         filechooser.open_file(on_selection=self.selection)
+    def on_permission_result(self, permissions, results):
+        if all(results):
+            # Permission granted! Now open the file chooser
+            Clock.schedule_once(lambda dt: filechooser.open_file(on_selection=self.selection))
+        else:
+            toast("Permission denied by user")
+    def on_permission_result(self, permissions, results):
+        if all(results):
+            # Permission granted! Now open the file chooser
+            Clock.schedule_once(lambda dt: filechooser.open_file(on_selection=self.selection))
+        else:
+            toast("Permission denied by user")
+    
     def selection(self, filename):
-        self.source = filename[0]
+        if filename:
+            self.source = filename[0]
+
+
+
+
+

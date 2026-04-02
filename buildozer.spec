@@ -103,7 +103,7 @@ android.presplash_color = grey
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions.html for all the supported syntaxes and properties)
-android.permissions = READ_EXTERNAL_STORAGE, INTERNET, WRITE_EXTERNAL_STORAGE
+android.permissions =  READ_MEDIA_IMAGES, READ_MEDIA_VIDEO, INTERNET
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
