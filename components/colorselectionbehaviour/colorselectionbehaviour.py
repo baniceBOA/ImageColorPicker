@@ -75,7 +75,7 @@ class ImageColorSelection(EventDispatcher):
             with PILImage.open(img) as image:
                 # 1. Handle Resampling (Both 10.x and 12.x use the Resampling enum)
                 # This fixes your 'AttributeError'
-                resample_filter = PILImage.Resampling.LANCZOS
+                resample_filter = PILImage.LANCZOS
                 
                 # 2. Performance: Downsample to 200px for speed
                 image.thumbnail((200, 200), resample=resample_filter)
