@@ -13,7 +13,7 @@ class ImageColor(Image):
     def get_image_color(self, x,y):
         if self.source:
             image = PilImage.open(self.source)
-            img = image.resize((430, 350), PilImage.Resampling.LANCZOS)
+            img = image.resize((430, 350), PilImage.LANCZOS)
             flip_img = img.transpose(PilImage.Transpose.FLIP_TOP_BOTTOM)
             colors = flip_img.getpixel((x-self.pos[0], y-self.pos[1]))
             app = MDApp.get_running_app()

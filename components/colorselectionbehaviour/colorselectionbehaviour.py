@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.properties import StringProperty, ColorProperty, ListProperty
 from kivy.utils import get_hex_from_color, get_color_from_hex
 from kivymd.toast import toast
@@ -10,6 +11,7 @@ import PIL
 from packaging import version # Buildozer includes this by default
 from kivy.clock import Clock
 import colorsys
+from utils import ImageProcessor
 
 if platform == 'android':
     from android.permissions import request_permissions, Permission, check_permission
@@ -133,7 +135,16 @@ class ImageColorSelection(EventDispatcher):
     
     def selection(self, filename):
         if filename:
-            self.source = filename[0]
+            app = App.get_running_app()
+            cache_path = os.path.join(app.user_data_dir, 'image_cache')
+            
+            # Call our separate utility
+            processed_path = ImageProcessor.prepare_for_display(filename[0], cache_path)
+            
+            if processed_path:
+                # Update the UI with the safe, compressed version
+                self.source = processed_path
+                
 
 
 
