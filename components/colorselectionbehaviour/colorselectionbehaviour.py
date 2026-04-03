@@ -6,6 +6,8 @@ from kivy.event import EventDispatcher
 from kivy.uix.image import Image
 from plyer import filechooser
 from PIL import Image as PILImage
+import PIL
+from packaging import version # Buildozer includes this by default
 from kivy.clock import Clock
 import colorsys
 
@@ -60,12 +62,51 @@ class ImageColorSelection(EventDispatcher):
 
     
 
+
     def get_main_colors(self, img):
-        image = PILImage.open(img)
-        colors = image.getcolors(image.size[0]*image.size[1])
-        colors.sort(reverse=True)
-        five_colors = colors[0:5]
-        return five_colors
+        """
+        Extracts top 5 colors. Adaptive for Pillow 10.3.0 through 12.2.0.
+        """
+        try:
+            # Detect Pillow Version
+            pillow_version = version.parse(PIL.__version__)
+            is_v12_or_newer = pillow_version >= version.parse("12.0.0")
+            
+            with PILImage.open(img) as image:
+                # 1. Handle Resampling (Both 10.x and 12.x use the Resampling enum)
+                # This fixes your 'AttributeError'
+                resample_filter = PILImage.Resampling.LANCZOS
+                
+                # 2. Performance: Downsample to 200px for speed
+                image.thumbnail((200, 200), resample=resample_filter)
+                
+                # 3. Handle Mode Conversions
+                # Pillow 12.x is stricter with Alpha channels in getcolors()
+                if image.mode != 'RGB':
+                    image = image.convert('RGB')
+                
+                # 4. Extract Data
+                width, height = image.size
+                pixel_count = width * height
+                
+                # Pillow 12.1+ prefers get_flattened_data, but getcolors is still standard
+                colors = image.getcolors(pixel_count)
+                
+            if not colors:
+                return []
+
+            # 5. Sort by frequency
+            colors.sort(key=lambda x: x[0], reverse=True)
+            
+            # Log version for your debugging in Logcat
+            print(f"DEBUG: Processed with Pillow {PIL.__version__} (V12 Mode: {is_v12_or_newer})")
+            
+            return colors[:5]
+
+        except Exception as e:
+            print(f"CRITICAL: Pillow {PIL.__version__} failed on {img}: {e}")
+            return []
+
     
     def select_image(self):
         if platform == 'android':
