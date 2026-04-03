@@ -1,3 +1,4 @@
+__version__ = "1.0.1"
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivy.properties import StringProperty, ColorProperty, ListProperty
