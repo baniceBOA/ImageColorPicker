@@ -4,6 +4,7 @@ bin-release/
 [Oo]bj/
 [Bb]in/
 notes_converted.pdf
+treeshaker.cfg
 txtopdf.py
 # cache files 
 *.pyc

@@ -1,0 +1,5 @@
+kivy
+kivymd
+pillow == 8.4.0
+packaging
+plyer

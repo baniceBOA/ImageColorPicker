@@ -3,22 +3,26 @@ from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivy.properties import StringProperty, ColorProperty, ListProperty
 from PIL import Image
-from utils import ImageProcessor
+from components.utils import ImageProcessor
 from screens import MobileImageColorPicker, ComputerImageColorPicker
 from kivy.utils import platform 
 import os
 
 import colorsys
 
+from kivy.core.window import Window
+Window.size = (400, 700)
+
 class MainApp(MDApp):
 
     def build(self):
         if platform == 'android':
-            return MobileImageColorPicker()
-        else:
             return ComputerImageColorPicker()
+        else:
+            return MobileImageColorPicker()
     def on_start(self):
-        # Executed when the app starts 
+        # Executed when the app starts
+        self.clear_image_cache() 
         if platform == 'android':
             from android.permissions import request_permissions, Permission
             request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])

@@ -11,7 +11,8 @@ import PIL
 from packaging import version # Buildozer includes this by default
 from kivy.clock import Clock
 import colorsys
-from utils import ImageProcessor
+import os
+from components.utils import ImageProcessor
 
 if platform == 'android':
     from android.permissions import request_permissions, Permission, check_permission
